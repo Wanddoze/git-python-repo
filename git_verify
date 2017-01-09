@@ -1,0 +1,16 @@
+#!/usr/bin/env python2.7
+import git
+import os
+
+def is_git_repo(path):
+    try:
+        _ = git.Repo(path).git_dir
+        return True
+    except git.exc.InvalidGitRepositoryError:
+        return False
+
+if __name__ == "__main__":
+    for f in os.listdir('.'):
+        if is_git_repo(f):
+	    print "{0}".format('[CLEAN]' if not git.Repo(f).is_dirty() else '[DIRTY]')
+            print "{0} - {1}".format(git.Repo(f).active_branch, f)
